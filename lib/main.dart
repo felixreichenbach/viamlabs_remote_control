@@ -29,19 +29,44 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var _isLoggedIn = true;
+  var _isLoggedIn = false;
+  var _isLoading = false;
   late RobotClient _robot;
+  late ResourceName baseName;
+  late ResourceName cameraName;
 
   void login(String location, String secret) {
-    print("inside");
-    // TODO: Implement authentication
+    if (_isLoading) {
+      return;
+    }
+    if (_isLoggedIn) {
+      return;
+    }
+
+    _isLoading = true;
+    notifyListeners();
 
     final robotFut = RobotClient.atAddress(
       location,
       RobotClientOptions.withLocationSecret(secret),
     );
-    _isLoggedIn = !_isLoggedIn;
-    notifyListeners();
+
+    robotFut.then((value) {
+      _robot = value;
+      // Print the available resources
+      print(_robot.resourceNames);
+      final components = _robot.resourceNames
+          .where((element) => element.type == resourceTypeComponent);
+
+      for (ResourceName component in components) {
+        if (component.subtype == Camera.subtype.resourceSubtype) {
+          cameraName = component;
+        }
+      }
+      _isLoggedIn = true;
+      _isLoading = false;
+      notifyListeners();
+    });
   }
 }
 
@@ -54,21 +79,19 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: appState._isLoggedIn ? const LoginPage() : const Placeholder(),
-      // TODO: Implement once authentication complete
-      /*const BaseScreen(
-              robot: null,
-              base: null,
-              cameras: null,
-            ),*/
-      // TODO: Remove once authentication is implemented
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          appState.login("", "");
-        },
-        tooltip: 'Increment Counter',
-        child: const Icon(Icons.add),
-      ),
+      body: !appState._isLoggedIn
+          ? const LoginPage()
+          : appState._isLoading
+              ? const Placeholder()
+              : BaseScreen(
+                  base: Base.fromRobot(appState._robot,
+                      'viam_base'), // TODO: Make 'viam_base' dynamic
+                  cameras: appState._robot.resourceNames
+                      .where((element) =>
+                          element.subtype == Camera.subtype.resourceSubtype)
+                      .map((e) => Camera.fromRobot(appState._robot, e.name)),
+                  robot: appState._robot,
+                ),
     );
   }
 }
