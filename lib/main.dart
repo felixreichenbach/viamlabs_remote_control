@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:viam_sdk/viam_sdk.dart';
 import 'package:viam_sdk/widgets.dart';
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Viam Remote Control',
+        title: 'Viamlabs Remote Control',
         theme: ThemeData(
           fontFamily: 'RobotoMono',
           useMaterial3: true,
@@ -36,7 +35,8 @@ class MyAppState extends ChangeNotifier {
   var _isLoading = false;
   late RobotClient _robot;
   late ResourceName baseName;
-  late ResourceName cameraName;
+  late Base _base;
+  late Iterable<Camera> _cameras;
 
   void login(String location, String secret) {
     _isLoggedIn = true;
@@ -50,16 +50,15 @@ class MyAppState extends ChangeNotifier {
 
     robotFut.then((value) {
       _robot = value;
-      // Print the available resources
-      //print(_robot.resourceNames);
-      final components = _robot.resourceNames
-          .where((element) => element.type == resourceTypeComponent);
 
-      for (ResourceName component in components) {
-        if (component.subtype == Camera.subtype.resourceSubtype) {
-          cameraName = component;
-        }
-      }
+      var baseName = _robot.resourceNames.firstWhere(
+          (element) => element.subtype == Base.subtype.resourceSubtype);
+      _base = Base.fromRobot(_robot, baseName.name);
+
+      _cameras = _robot.resourceNames
+          .where((element) => element.subtype == Camera.subtype.resourceSubtype)
+          .map((e) => Camera.fromRobot(_robot, e.name));
+
       _isLoggedIn = true;
       _isLoading = false;
       notifyListeners();
@@ -82,39 +81,37 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Viam Remote Control'),
+        title: const Text('Viamlabs Remote Control'),
       ),
       body: SafeArea(
-        child: Center(
-          child: !appState._isLoggedIn
-              ? const LoginPage()
-              : appState._isLoading
-                  ? PlatformCircularProgressIndicator()
-                  : Column(
-                      children: [
-                        ViamBaseScreen(
-                          base: Base.fromRobot(appState._robot,
-                              'viam_base'), // TODO: Make 'viam_base' dynamic
-                          cameras: appState._robot.resourceNames
-                              .where((element) =>
-                                  element.subtype ==
-                                  Camera.subtype.resourceSubtype)
-                              .map((e) =>
-                                  Camera.fromRobot(appState._robot, e.name)),
-                          robotClient: appState._robot,
-                        ),
-                      ],
-                    ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          appState.logout();
-        },
-        tooltip: 'Logout',
-        child: const Icon(Icons.exit_to_app),
-      ),
+          bottom: false,
+          child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  !appState._isLoggedIn
+                      ? const LoginPage()
+                      : appState._isLoading
+                          ? Center(child: PlatformCircularProgressIndicator())
+                          : ViamBaseScreen(
+                              base: appState._base,
+                              cameras: appState._cameras,
+                              robotClient: appState._robot,
+                            ),
+                ]),
+          )),
+      floatingActionButton: appState._isLoggedIn
+          ? FloatingActionButton(
+              onPressed: () {
+                appState.logout();
+              },
+              tooltip: 'Logout',
+              child: const Icon(Icons.exit_to_app),
+            )
+          : Container(),
     );
   }
 }
@@ -180,14 +177,16 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  appState.login(
-                      locationController.text, secretController.text);
-                }
-              },
-              child: const Text('Login'),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    appState.login(
+                        locationController.text, secretController.text);
+                  }
+                },
+                child: const Text('Login'),
+              ),
             ),
           ],
         ));
