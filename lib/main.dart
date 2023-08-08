@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  var webRTC = false;
+  final dialOptions = DialOptions();
+  late Future robotFut;
   var _isLoggedIn = false;
   var _isLoading = false;
   late RobotClient _robot;
@@ -43,11 +46,22 @@ class MyAppState extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final robotFut = RobotClient.atAddress(
-      location,
-      RobotClientOptions.withLocationSecret(secret),
-    );
-
+    if (!webRTC) {
+      dialOptions.insecure = true;
+      dialOptions.authEntity = 'pi-main.t7do9d9645.viam.cloud';
+      dialOptions.webRtcOptions = DialWebRtcOptions();
+      dialOptions.webRtcOptions!.disable = true;
+    }
+    dialOptions.credentials = Credentials.locationSecret(secret);
+    /*
+    else {
+      robotFut = RobotClient.atAddress(
+        location,
+        RobotClientOptions.withLocationSecret(secret),
+      );
+    }*/
+    robotFut = RobotClient.atAddress(
+        location, RobotClientOptions.withDialOptions(dialOptions));
     robotFut.then((value) {
       _robot = value;
 
