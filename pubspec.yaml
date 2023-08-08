@@ -40,6 +40,7 @@ dependencies:
   flutter_platform_widgets: ^3.3.5
   provider: ^6.0.5
   english_words: ^4.0.0
+  google_fonts: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -96,3 +97,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: RobotoMono
+      fonts:
+       - asset: fonts/Roboto_Mono/static/RobotoMono-Regular.ttf
+       - asset: fonts/Roboto_Mono/static/RobotoMono-Bold.ttf
+
