@@ -2,21 +2,11 @@
 
 <img align="right" src="./media/viamlabs-remote-control.png" alt="iPhone Control Screen">
 
-A demo application using the Viam Flutter SDK to connect to a robot and provide remote control capabilities such as moving the base while monitoring the environment through the camera.
+This repo contains a simple demo application to demonstrate how easy it is to build mobile apps such as remote control of robots, using the Viam Flutter SDK. This code is kept as simple as possible to also allow people who are not yet familiar with Flutter get started easily.
+If you are new to Flutter, we highly recommend to start with one of the many tutorials and courses out there such as on [Flutter.dev](https://docs.flutter.dev/). This course also helps you with the setup/prerequisits to install your development environment and start the application.
 
-This is an example with the intention to get an idea of how to use the SDK and therefore kept simple. This is no production ready code!
+The app code is ready to use and if you don't have a robot at hand, feel free to rent one for free here at [Viam.com](https://www.viam.com/resources/try-viam).
 
-## Prerequisites
+Please keep in mind that this is no production ready code and purely for educational purposes!
 
-A robot using the Viam RDK with at least a base and a camera. The easiest way to get started is probably the [Viam Rover](https://www.viam.com/resources/rover) but any other should work as well.
-
-
-## Getting Started
-
-If you are new to Flutter, I recommend to run through this [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/install) excersise which gives a great intro and hands on exercises.
-
-To be able to connect to your robot, you will need to provide the robot address and location secret to the app (either copy paste or use a .env. file). You can find information regarding retrieving the secret in the [Viam documentation](https://docs.viam.com/manage/fleet/robots/#code-sample)
-
-The usage of the app is self explanatory.
-
-Enjoy and please don't hesitate to reach out if there are questions or feedback to improve the app!
+If you have any questions please don't hesitate to reach out via [Viam Community](https://www.viam.com/resources/community).
