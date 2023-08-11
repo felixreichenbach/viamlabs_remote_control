@@ -10,3 +10,16 @@ The app code is ready to use and if you don't have a robot at hand, feel free to
 Please keep in mind that this is no production ready code and purely for educational purposes!
 
 If you have any questions please don't hesitate to reach out via [Viam Community](https://www.viam.com/resources/community).
+
+## Features (besides the obvious ones)
+
+While you can enter the robot credentials every time you connect to the robot, this is not very developer friendly.
+To automatically prepopulate the credentials you can create a ```.env``` file at the level of this README.md file.
+
+Add the following text:
+
+```
+LOCATION= <--e.g. rover.xyz123.viam.cloud-->
+SECRET= <--Location Secret-->
+```
+You can get the credentials from the [app.viam.com](app.viam.com) under the ```code sample``` tab.
