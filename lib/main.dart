@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Application state plus login / logout methods
+///
 class MyAppState extends ChangeNotifier {
   var _isLoggedIn = false;
   var _isLoading = false;
@@ -50,11 +52,11 @@ class MyAppState extends ChangeNotifier {
 
     robotFut.then((value) {
       _robot = value;
-
+      // Get the robots base component
       var baseName = _robot.resourceNames.firstWhere(
           (element) => element.subtype == Base.subtype.resourceSubtype);
       _base = Base.fromRobot(_robot, baseName.name);
-
+      // Get the robots cameras, there can be multiple!
       _cameras = _robot.resourceNames
           .where((element) => element.subtype == Camera.subtype.resourceSubtype)
           .map((e) => Camera.fromRobot(_robot, e.name));
@@ -73,6 +75,8 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
+/// Main application widget including UI logic
+///
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -116,6 +120,8 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
+/// The login widget section consists of the widget and its state
+///
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
