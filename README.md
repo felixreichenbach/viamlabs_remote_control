@@ -2,7 +2,7 @@
 
 A demo application using the Viam Flutter SDK to connect to a robot and provide remote control capabilities such as moving the base while monitoring the environment through the camera.
 
-![Flutter App Screenshot](./media/viamlabs-remote-control.jpeg)
+![Flutter App Screenshot](./media/viamlabs-remote-control.png)
 
 This is an example with the intention to get an idea of how to use the SDK and therefore kept simple. This is no production ready code!
 
