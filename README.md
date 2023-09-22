@@ -1,6 +1,6 @@
 # Viamlabs - Remote Control
 
-> [!WARN]
+> [!WARNING]
 > This repo has moved to [viam-soleng](https://github.com/viam-soleng/viam-remote-control) and this one here won't be maintained.
 > 
 
