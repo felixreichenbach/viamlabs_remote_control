@@ -1,5 +1,9 @@
 # Viamlabs - Remote Control
 
+> [!WARN]
+> This repo has moved to [viam-soleng](https://github.com/viam-soleng/viam-remote-control) and this one here won't be maintained.
+> 
+
 <img align="right" src="./media/viamlabs-remote-control.png" alt="iPhone Control Screen">
 
 This repo contains a simple demo application to demonstrate how easy it is to build mobile apps such as remote control of robots, using the Viam Flutter SDK. This code is kept as simple as possible to also allow people who are not yet familiar with Flutter get started easily.
