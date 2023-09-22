@@ -2,11 +2,11 @@ PODS:
   - Flutter (1.0.0)
   - flutter_webrtc (0.9.36):
     - Flutter
-    - WebRTC-SDK (= 114.5735.02)
+    - WebRTC-SDK (= 114.5735.07)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - WebRTC-SDK (114.5735.02)
+  - WebRTC-SDK (114.5735.07)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -27,9 +27,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_webrtc: 1944895d4e908c4bc722929dc4b9f8620d8e1b2f
+  flutter_webrtc: 46f5001ae8ac891177ec95fc1403e8ddd940d6ba
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
-  WebRTC-SDK: dd913fd31cfbf1d43b9a22d83f4c6354c960c623
+  WebRTC-SDK: a480882393c7b0e77ca4ef5ba70a9b260735858e
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
 
